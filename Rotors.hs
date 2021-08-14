@@ -1,6 +1,6 @@
 module Rotors where
 
-import Aux ( stringToNs ) 
+import Aux ( stringToNs, charToN )
 
 type Rotor = [Int]
 type RotorCode = String
@@ -45,8 +45,6 @@ shiftRotor _ [] = []
 shiftRotor 0 rs = rs
 shiftRotor n rs =  drop (length rs - fromInteger n `mod` length rs) rs ++ take (length rs - fromInteger n `mod` length rs) rs
 
-machineParts :: [RotorCode] -> [Rotor]
-machineParts = map getRotor
-
-machineConf :: [(RotorCode, Letter)] -> [Rotor]
-machineConf = undefined 
+rotorConf :: [(RotorCode, Letter)] -> [Rotor]
+rotorConf [] = []
+rotorConf xs = [shiftRotor (toInteger $ charToN l - 1) (getRotor code) | (code, l) <- xs]
