@@ -45,6 +45,17 @@ shiftRotor _ [] = []
 shiftRotor 0 rs = rs
 shiftRotor n rs =  drop (length rs - fromInteger n `mod` length rs) rs ++ take (length rs - fromInteger n `mod` length rs) rs
 
+shiftRotors :: [Rotor] -> [Pos] -> [Rotor]
+shiftRotors rs ps = zipWith shiftRotor ps rs
+
+-- +1
+incremRotor :: Integer -> [Pos] -> [Pos]
+incremRotor _ [] = []
+--incremRotor 0 xs  = xs
+incremRotor n (x:xs) = a : incremRotor k xs where
+  a = if x + n < 26 then x + n else (x + n) `mod` 26
+  k = if x + n < 26 then 0 else (x + n) `div` 26
+
 rotorConf :: [(RotorCode, Letter)] -> [Rotor]
 rotorConf [] = []
 rotorConf xs = [shiftRotor (toInteger $ charToN l - 1) (getRotor code) | (code, l) <- xs]
